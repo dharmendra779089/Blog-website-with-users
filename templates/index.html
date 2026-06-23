@@ -1,0 +1,89 @@
+<!-- Include the shared header template (contains DOCTYPE, head, navbar) -->
+{% include "header.html" %}
+
+<!-- Page Header - hero/banner section with a background image -->
+<header
+  class="masthead"
+  style="background-image: url('{{ url_for('static', filename='assets/img/home-bg.jpg') }}')"
+>
+  <!-- Centered container for the heading content, positioned above the background image -->
+  <div class="container position-relative px-4 px-lg-5">
+    <!-- Bootstrap row with centered content -->
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <!-- Responsive column that adjusts width based on screen size -->
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <!-- Site heading section with the blog title and tagline -->
+        <div class="site-heading">
+          <!-- Main blog title displayed on the home page hero - Changed to Lumina -->
+          <h1>Lumina</h1>
+          <!-- Subtitle/tagline displayed below the main title -->
+          <span class="subheading">A modern canvas for ideas and insights.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content Section - contains the list of blog posts -->
+<div class="container px-4 px-lg-5">
+  <div class="row gx-4 gx-lg-5 justify-content-center">
+    <div class="col-md-10 col-lg-8 col-xl-7">
+      
+      <!-- New Post Button Section - Placed at the top of the feed, always visible -->
+      <div class="d-flex justify-content-end mb-4">
+        <!-- Link styled as a button that navigates to the add_new_post route -->
+        <a
+          class="btn btn-primary float-right"
+          href="{{url_for('add_new_post')}}"
+          ><i class="fas fa-plus me-2"></i>Create New Post</a
+        >
+      </div>
+
+      <!-- Loop through all blog posts passed from the get_all_posts() route -->
+      {% for post in all_posts %}
+      <!-- Each post preview card styled as a modern glass-card -->
+      <div class="glass-card post-preview">
+        <!-- Link to the full blog post page using the show_post route with the post's ID -->
+        <a href="{{ url_for('show_post', post_id=post.id) }}">
+          <!-- Display the post title -->
+          <h2 class="post-title">{{ post.title }}</h2>
+          <!-- Display the post subtitle -->
+          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+        </a>
+        <!-- Post metadata: author name and publication date -->
+        <p class="post-meta mt-3 mb-0">
+          Posted by
+          <!-- Display the author's name from the related User object -->
+          <a href="#">{{post.author.name}}</a>
+          on {{post.date}}
+          
+          <!-- Only show the delete button if the current user is the author of the post or the admin (id=1) -->
+          {% if current_user.is_authenticated and (current_user.id == post.author_id or current_user.id == 1): %}
+          <!-- Delete link - sends a request to the delete_post route -->
+          <a class="text-danger ms-3" href="{{url_for('delete_post', post_id=post.id) }}" title="Delete Post">
+              <i class="fas fa-trash-can"></i>
+          </a>
+          {% endif %}
+        </p>
+      </div>
+      <!-- End of the for loop -->
+      {% endfor %}
+
+      <!-- Pager Section - dynamic newer/older page links -->
+      <div class="d-flex justify-content-between mt-5 mb-4">
+        {% if pagination.has_prev %}
+        <a class="btn btn-secondary text-uppercase" href="{{ url_for('get_all_posts', page=pagination.prev_num) }}">← Newer Posts</a>
+        {% else %}
+        <div></div> <!-- Spacer to align the Next button to the right -->
+        {% endif %}
+        
+        {% if pagination.has_next %}
+        <a class="btn btn-secondary text-uppercase" href="{{ url_for('get_all_posts', page=pagination.next_num) }}">Older Posts →</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Include the shared footer template (contains footer content, scripts, closing body/html tags) -->
+{% include "footer.html" %}

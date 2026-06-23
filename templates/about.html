@@ -1,0 +1,45 @@
+<!-- Include the shared header template (DOCTYPE, head, navbar) -->
+{% include "header.html" %}
+
+<!-- Page Header - hero section with a background image for the About page -->
+<header
+  class="masthead"
+  style="background-image: url('{{ url_for('static', filename='assets/img/about-bg.jpg') }}')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <!-- Page heading displayed over the background image -->
+        <div class="page-heading">
+          <!-- Main heading for the About page -->
+          <h1>About Lumina</h1>
+          <!-- Subtitle below the heading -->
+          <span class="subheading">A collective space for deep thinking.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<!-- Main Content Section - contains the about page text -->
+<main class="mb-4">
+  <div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="glass-card">
+          <p>
+            Welcome to Lumina, a digital sanctuary dedicated to the art of sharing concepts, technology insights, and personal reflections. Our goal is to compile thoughts that illuminate topics in software development, design patterns, and creative endeavors.
+          </p>
+          <p>
+            This website is powered by a Flask framework backend integrated with SQLite for data persistence, CKEditor for full rich text editing support, and Flask-Login for secure session management.
+          </p>
+          <p>
+            We believe that clean, minimal interfaces combined with well-structured systems encourage clear thinking and higher quality discussions. Thank you for visiting and participating in our space!
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Include the shared footer template (footer content, scripts, closing tags) -->
+{% include "footer.html" %}

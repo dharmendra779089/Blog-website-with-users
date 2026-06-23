@@ -1,0 +1,55 @@
+<!-- Import the render_form macro from Bootstrap-Flask for auto-rendering WTForms -->
+{% from "bootstrap5/form.html" import render_form %}
+<!-- Include the shared header template (DOCTYPE, head, navbar) -->
+{% include "header.html" %}
+
+<!-- Page Header - hero section with a background image for the login page -->
+<header
+  class="masthead"
+  style="background-image: url('{{ url_for('static', filename='assets/img/login-bg.jpg') }}')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <!-- Page heading displayed over the background image -->
+        <div class="page-heading">
+          <!-- Main heading for the login page -->
+          <h1>Log In</h1>
+          <!-- Subtitle/tagline below the heading -->
+          <span class="subheading">Welcome Back!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content Section - contains the login form -->
+<main class="mb-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Column for the login form - centered and responsive -->
+      <div class="col-lg-8 col-md-10">
+        <!-- Wrap in glassmorphism card -->
+        <div class="glass-card">
+          <!-- Flash Messages Section - displays one-time messages from the server -->
+          {% with messages = get_flashed_messages() %}
+          <!-- Only render the messages block if there are messages to show -->
+          {% if messages %}
+          <!-- Loop through each flash message and display it -->
+          {% for message in messages %}
+          <p class="flash"><i class="fas fa-circle-exclamation me-2"></i>{{ message }}</p>
+          {% endfor %}
+          {% endif %}
+          <!-- End the 'with' block -->
+          {% endwith %}
+          
+          <!-- Render the LoginForm using Bootstrap-Flask's render_form macro -->
+          {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Include the shared footer template (footer content, scripts, closing tags) -->
+{% include "footer.html" %}

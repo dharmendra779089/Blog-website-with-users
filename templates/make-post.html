@@ -1,0 +1,52 @@
+<!-- Import the render_form macro from Bootstrap-Flask for auto-rendering WTForms -->
+{% from "bootstrap5/form.html" import render_form %}
+<!-- Include the shared header template (DOCTYPE, head, navbar) -->
+{% include "header.html" %}
+
+<!-- Page Header - hero section with a background image -->
+<header
+  class="masthead"
+  style="background-image: url('{{ url_for('static', filename='assets/img/edit-bg.jpg') }}')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <div class="page-heading">
+          <!-- Conditional heading: Show "Edit Post" when editing, "New Post" when creating -->
+          <!-- is_edit is a boolean passed from the edit_post route (True) or add_new_post route (not passed/False) -->
+          {% if is_edit: %}
+          <h1>Edit Post</h1>
+          {% else: %}
+          <h1>New Post</h1>
+          {% endif %}
+          <!-- Encouraging subtitle shown for both new and edit modes -->
+          <span class="subheading"
+            >You're going to make a great blog post!</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content Section - contains the blog post form with CKEditor -->
+<main class="mb-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Column for the form - centered and responsive -->
+      <div class="col-lg-8 col-md-10">
+        <!-- Wrap in glassmorphism card -->
+        <div class="glass-card">
+          <!-- Load the CKEditor JavaScript library for the rich text editor -->
+          {{ ckeditor.load() }}
+          <!-- Configure CKEditor to replace the 'body' field from CreatePostForm with a rich text editor -->
+          {{ ckeditor.config(name='body') }}
+          <!-- Render the CreatePostForm (works for both new and edit) as a Bootstrap-styled form -->
+          {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- Include the shared footer template (footer content, scripts, closing tags) -->
+{% include "footer.html" %}

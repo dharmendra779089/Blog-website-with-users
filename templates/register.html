@@ -1,0 +1,55 @@
+<!-- Import the render_form macro from Bootstrap-Flask for auto-rendering WTForms -->
+{% from "bootstrap5/form.html" import render_form %}
+<!-- Include the shared header template (DOCTYPE, head, navbar) -->
+{% include "header.html" %}
+
+<!-- Page Header - hero section with a background image for the registration page -->
+<header
+  class="masthead"
+  style="background-image: url('{{ url_for('static', filename='assets/img/register-bg.jpg') }}')"
+>
+  <div class="container position-relative px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+      <div class="col-md-10 col-lg-8 col-xl-7">
+        <!-- Page heading displayed over the background image -->
+        <div class="page-heading">
+          <!-- Main heading for the registration page -->
+          <h1>Register</h1>
+          <!-- Subtitle encouraging new users to sign up -->
+          <span class="subheading">Start Contributing to the Blog!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content Section - contains the registration form -->
+<main class="mb-4">
+  <div class="container">
+    <div class="row justify-content-center">
+      <!-- Column for the registration form - centered and responsive -->
+      <div class="col-lg-8 col-md-10">
+        <!-- Wrap in glassmorphism card -->
+        <div class="glass-card">
+          <!-- Flash Messages Section - displays one-time messages from the server -->
+          {% with messages = get_flashed_messages() %}
+          <!-- Only render if there are messages to display -->
+          {% if messages %}
+          <!-- Loop through and display each flash message -->
+          {% for message in messages %}
+          <p class="flash"><i class="fas fa-circle-exclamation me-2"></i>{{ message }}</p>
+          {% endfor %}
+          {% endif %}
+          <!-- End the 'with' block -->
+          {% endwith %}
+          
+          <!-- Render the RegisterForm using Bootstrap-Flask's render_form macro -->
+          {{ render_form(form, novalidate=True, button_map={"submit": "primary"}) }}
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Include the shared footer template (footer content, scripts, closing tags) -->
+{% include "footer.html" %}

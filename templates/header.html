@@ -1,0 +1,150 @@
+<!-- Declare the document type as HTML5 -->
+<!DOCTYPE html>
+<!-- Set the language of the page to English for accessibility and SEO -->
+<html lang="en">
+  <head>
+    <!-- Set the character encoding to UTF-8 to support all international characters -->
+    <meta charset="utf-8" />
+    <!-- Configure the viewport for responsive design on mobile devices -->
+    <!-- width=device-width makes the page width match the device screen width -->
+    <!-- initial-scale=1 sets the initial zoom level to 100% -->
+    <!-- shrink-to-fit=no prevents the page from shrinking on older mobile browsers -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Meta description for SEO - search engines display this in search results -->
+    <meta name="description" content="Lumina - A premium space for ideas, articles, and discussions." />
+    <!-- Meta author tag for identifying the page creator -->
+    <meta name="author" content="Lumina Blog" />
+    <!-- Page title shown in the browser tab - Changed from Angela's Blog to Lumina -->
+    <title>Lumina — Space for Ideas</title>
+    <!-- Start of the Jinja2 'styles' block - child templates can override this to add custom CSS -->
+    {% block styles %}
+    <!-- Load Bootstrap-Flask CSS automatically using the Bootstrap5 extension -->
+    {{ bootstrap.load_css() }}
+    <!-- Set the browser tab favicon (small icon) using Flask's url_for to resolve the static file path -->
+    <link
+      rel="icon"
+      type="image/x-icon"
+      href="{{ url_for('static', filename='assets/favicon.ico') }}"
+    />
+    <!-- Load Font Awesome icons library (free version) for social media icons and UI icons -->
+    <script
+      src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Load Google Fonts - Outfit (headings) and Inter (body) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Load the custom theme CSS file which contains all the blog-specific styles -->
+    <link
+      href="{{ url_for('static', filename='css/styles.css') }}"
+      rel="stylesheet"
+    />
+    <!-- Load custom overrides for modern dark glassmorphism styling -->
+    <link
+      href="{{ url_for('static', filename='css/custom.css') }}"
+      rel="stylesheet"
+    />
+    <!-- End of the 'styles' block -->
+    {% endblock %}
+  </head>
+  <!-- Start of the page body - all visible content goes inside here -->
+  <body>
+    <!-- Navigation Bar - uses Bootstrap's responsive navbar component with glassmorphism custom class -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+      <!-- Container to center and pad the navbar content -->
+      <div class="container px-4 px-lg-5">
+        <!-- Brand/logo link - clicking it takes the user to the home page -->
+        <a class="navbar-brand" href="/">Lumina</a>
+        <!-- Hamburger menu button - only visible on small screens (mobile) -->
+        <!-- data-bs-toggle="collapse" tells Bootstrap to toggle the collapsible menu -->
+        <!-- data-bs-target="#navbarResponsive" specifies which element to collapse/expand -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          Menu
+          <!-- Font Awesome hamburger (three bars) icon -->
+          <i class="fas fa-bars"></i>
+        </button>
+        <!-- Collapsible navigation menu - collapses into hamburger on small screens -->
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <!-- Navigation links list - ms-auto pushes links to the right side -->
+          <ul class="navbar-nav ms-auto py-4 py-lg-0">
+            <!-- Home link - always visible to all users -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('get_all_posts') }}"
+                >Home</a
+              >
+            </li>
+            <!-- New Post link - always visible -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('add_new_post') }}"
+                >New Post</a
+              >
+            </li>
+            <!-- Conditional navigation: Show Login/Register links only if user is NOT logged in -->
+            {% if not current_user.is_authenticated: %}
+            <!-- Login link - only visible when user is not authenticated -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('login') }}"
+                >Login</a
+              >
+            </li>
+            <!-- Register link - only visible when user is not authenticated -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('register') }}"
+                >Register</a
+              >
+            </li>
+            <!-- Else: Show Log Out link when user IS logged in -->
+            {% else: %}
+            <!-- Log Out link - only visible when user is authenticated -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('logout') }}"
+                >Log Out</a
+              >
+            </li>
+            <!-- End of the conditional authentication check -->
+            {% endif %}
+            <!-- About link - always visible to all users -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('about') }}"
+                >About</a
+              >
+            </li>
+            <!-- Contact link - always visible to all users -->
+            <li class="nav-item">
+              <a
+                class="nav-link px-lg-3 py-3 py-lg-4"
+                href="{{ url_for('contact') }}"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Note: The body and html tags are NOT closed here -->
+    <!-- They are closed in footer.html which is included after the page content -->
+
