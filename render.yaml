@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: blog-website-with-users
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app
+    envVars:
+      - key: FLASK_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.10.11

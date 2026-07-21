@@ -104,8 +104,8 @@ gravatar = Gravatar(app,
 # Define the base class for all SQLAlchemy models using the new DeclarativeBase pattern
 class Base(DeclarativeBase):
     pass
-# Configure the database URI to use SQLite, storing the database file as 'posts.db' in the instance folder
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+# Configure the database URI to use DB_URI env var if present (e.g. Postgres on Render), otherwise SQLite
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DB_URI', 'sqlite:///posts.db')
 # Create the SQLAlchemy instance with our custom Base class for model definitions
 db = SQLAlchemy(model_class=Base)
 # Register the SQLAlchemy instance with the Flask app to enable database operations
@@ -486,6 +486,5 @@ def contact():
 
 # This block only runs when the script is executed directly (not when imported as a module)
 if __name__ == "__main__":
-    # Start the Flask development server with debug mode enabled on port 5001
-    # debug=True enables auto-reload on code changes and shows detailed error pages
-    app.run(debug=True, port=5001)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(debug=False, host="0.0.0.0", port=port)
